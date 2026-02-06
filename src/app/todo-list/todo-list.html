@@ -1,0 +1,50 @@
+
+<div class="min-h-screen flex items-center justify-center bg-slate-50">
+  <div class="w-full max-w-md bg-white shadow-lg rounded-xl p-6">
+    <h1 class="text-2xl font-semibold text-slate-800 mb-4 text-center">
+      To-do list
+    </h1>
+
+    <form class="flex gap-3 mb-4" (ngSubmit)="addTask()">
+      <input
+        type="text"
+        name="task"
+        [(ngModel)]="newTask"
+        placeholder="Add task"
+        class="flex-1 px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <button
+        type="submit"
+        [disabled]="!newTask.trim()"
+        class="px-4 py-2 rounded-lg bg-blue-600 text-white font-medium disabled:bg-slate-300 disabled:cursor-not-allowed"
+      >
+        Add
+      </button>
+    </form>
+
+    <div *ngIf="tasks.length === 0" class="text-sm text-slate-400 text-center">
+      No tasks yet. Add your first one!
+    </div>
+
+    <ul *ngIf="tasks.length > 0" class="space-y-2">
+      <li
+        *ngFor="let task of tasks; trackBy: trackByIndex"
+        class="flex items-center justify-between rounded-lg px-3 py-2 border border-slate-200"
+      >
+        <span
+          class="text-slate-800"
+          [ngClass]="{ 'line-through text-slate-400': task.done }"
+        >
+          {{ task.text }}
+        </span>
+
+        <mat-slide-toggle
+          color="primary"
+          [checked]="task.done"
+          (change)="toggleTask(task)"
+          aria-label="Mark task as done"
+        ></mat-slide-toggle>
+      </li>
+    </ul>
+  </div>
+</div>
